@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "JobTrail",
+  "author": "Jack Hendrix",
+  "version": "1.0",
+  "description": "Tracks job applications and status across sites.",
+  "permissions": ["storage", "tabs", "activeTab"],
+  "action": {
+    "default_popup": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.linkedin.com/jobs*"],
+      "js": ["content/linkedin.js"]
+    },
+    {
+       "matches": ["*://*.indeed.com/*"],
+       "js": ["content/indeed.js"] 
+    },
+    {
+      "matches": ["*://*.glassdoor.com/job/*"],
+      "js": ["content/glassdoor.js"]
+    }
+  ]
+} 

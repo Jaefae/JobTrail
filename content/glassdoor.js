@@ -1,0 +1,1 @@
+console.log("Glassdoor content script loaded");

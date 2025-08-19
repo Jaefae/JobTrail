@@ -1,0 +1,1 @@
+console.log("LinkedIn content script loaded");

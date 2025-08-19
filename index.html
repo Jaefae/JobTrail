@@ -4,5 +4,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobTrail</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="index.js" defer></script>
+    <script src="extension.js" defer></script>
 </head>
+<body>
+    <h1>JobTrail</h1>
+    <table id="job-list">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Company</th>
+                <th>Salary</th>
+                <th>Date</th>
+                <th>Progress</th>
+            </tr>
+        </thead>
+        <tbody id="job-list-body">
+            <!-- Job listings will be dynamically inserted here -->
+            <!-- Temporary data-->
+            <tr>
+                <td><input type="text" placeholder="Title"></input></td>
+                <td><input type="text" placeholder="Company"></input></td>
+                <td><input type="text" placeholder="Salary"></input></td>
+                <td><input type="date" placeholder="Date"></input></td>
+                <td>Applied</td>
+            <!-- Temporary data-->
+        </tbody>
+    </table>
+    <button id="add-job">Add Job</button>
+</body>

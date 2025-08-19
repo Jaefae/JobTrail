@@ -1,6 +1,5 @@
 addJobEl = document.getElementById('add-job');
 tableBodyEl = document.getElementById('job-list-body');
-console.log(tableBodyEl)
 
 function createJobRow(job) {
     const row = document.createElement('tr');
@@ -22,9 +21,10 @@ function createJobRow(job) {
     date.type = 'date';
     status.textContent = "Status";
     row.appendChild(date);
-    row.appendChild(status);  
+    row.appendChild(status);
+    row.id = tableBodyEl.children.length;  
     tableBodyEl.appendChild(row);
-}
+}   
 addJobEl.addEventListener('click', () => {
     console.log('Add job button clicked');
     createJobRow();

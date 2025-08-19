@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>JobTrail</h1>
-    <table id="job-list">
+    <table id="job-list" class="job-list">
         <thead>
             <tr>
                 <th>Title</th>
@@ -21,13 +21,14 @@
         <tbody id="job-list-body">
             <!-- Job listings will be dynamically inserted here -->
             <!-- Temporary data-->
-            <tr>
+            <tr id="0">
                 <td><input type="text" placeholder="Title"></input></td>
                 <td><input type="text" placeholder="Company"></input></td>
                 <td><input type="text" placeholder="Salary"></input></td>
-                <td><input type="date" placeholder="Date"></input></td>
+                <td><input type="date"></input></td>
                 <td>Applied</td>
             <!-- Temporary data-->
+            </tr>
         </tbody>
     </table>
     <button id="add-job">Add Job</button>

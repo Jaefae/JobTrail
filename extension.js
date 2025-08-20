@@ -18,8 +18,12 @@ function createJobRow(job) {
     }
     const date = document.createElement('input');
     const status = document.createElement('td');
-    date.type = 'date';
+    date.type = 'text';
+    now = new Date();
+    date.value = now.getMonth() + "/" + now.getDate();
+    date.className = "date";
     status.textContent = "Status";
+    status.className = "status";
     row.appendChild(date);
     row.appendChild(status);
     row.id = tableBodyEl.children.length;  

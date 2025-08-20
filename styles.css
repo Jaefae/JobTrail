@@ -32,6 +32,16 @@ input {
     padding: 0px;
 }
 
+.date {
+    width: 60px;
+    text-align: center;
+}
+
+.status {
+    width: 80px;
+    text-align: center;
+}
+
 #add-job {
     border: 0px;
     color: white;

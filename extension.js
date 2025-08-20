@@ -5,9 +5,9 @@ const tableBodyEl = document.getElementById('job-list-body');
 
 let jobs = JSON.parse(localStorage.getItem('jobs'));
 
-if (jobs.length > 0) {
-    for(let key in jobs) {
-        createJobRow(tableBodyEl,jobs[key]);
+if (jobs && jobs.length > 0) {
+    for(let i = 0; i < jobs.length; i++) {
+        createJobRow(tableBodyEl,jobs[i], i);
     };
 } else {
     createJobRow(tableBodyEl);

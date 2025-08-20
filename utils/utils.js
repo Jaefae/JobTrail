@@ -7,22 +7,27 @@ if (!jobs) {
 
 function handleInputChange(e) {
     const field = this.className;
-    const rowIdx = this.closest('tr').id;
-    if (!jobs[rowIdx]) {
-        jobs[rowIdx] = {};
-    };
+    const rowEl = this.closest('tr');
+    let jobIdx = jobs.length;
 
-    jobs[rowIdx][field] = this.value;
+    if (rowEl.className === 'empty') {
+        jobs[jobIdx] = {};
+        rowEl.id = jobIdx;
+        rowEl.className = ''
+    } else {jobIdx = Number(rowEl.id)};
+
+    jobs[jobIdx][field] = this.value;
     localStorage.setItem('jobs', JSON.stringify(jobs));
 };
 
 function handleDeleteClick(e) {
-    const rowIdx = this.closest('tr').id;
-    console.log('Delete button clicked for row:', rowIdx);
-    jobs.pop(rowIdx);
+    const rowEl = this.closest('tr');
     const tableBodyEl = document.getElementById('job-list-body');
-    const rowEl = document.getElementById(rowIdx);
-    
+    console.log(rowEl.className);
+    if (rowEl.className !== 'empty') {
+        jobs.splice(Number(rowEl.id), 1);
+        shiftIds(rowEl.id);
+    }
     if (tableBodyEl.children.length > 1) {
         rowEl.remove();
     } else {
@@ -33,12 +38,28 @@ function handleDeleteClick(e) {
     localStorage.setItem('jobs', JSON.stringify(jobs));
 }
 
-export function createJobRow(tableBodyEl,job) {
+function shiftIds(pivot) {
+    const tableBodyEl = document.getElementById('job-list-body');
+    let greaterRows = [];
+    tableBodyEl.querySelectorAll('tr').forEach(row => {
+        if (row.className !== 'empty' && row.id > pivot) {
+            greaterRows.push(row);
+        }
+    });
+    greaterRows.forEach(row => {
+        row.id = Number(row.id) - 1;
+    });
+}
+    
+
+
+export function createJobRow(tableBodyEl,job,jobId) {
     const row = document.createElement('tr');
     const keys = ['title', 'company', 'salary', 'date', 'status'];
     const jobData = [job?.title, job?.company, job?.salary, job?.date, job?.status];
-
-    row.id = tableBodyEl.children.length;
+    if (jobId !== undefined) {
+        row.id = jobId;
+    } else { row.className = 'empty' };
 
     // Create input fields for each key
     for (let i = 0; i < jobData.length; i++) {
@@ -75,7 +96,7 @@ export function createJobRow(tableBodyEl,job) {
 
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'x';
-    deleteBtn.className = 'delete-btn-' + row.id;
+    deleteBtn.className = 'delete-btn';
     deleteBtn.addEventListener('click', handleDeleteClick);  
     row.appendChild(deleteBtn);
 

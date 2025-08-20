@@ -51,7 +51,7 @@ function shiftIds(pivot) {
     });
 }
     
-function getJob(){
+async function getJob(){
     let jobInfo = {
         title: '',
         company: '',
@@ -59,16 +59,23 @@ function getJob(){
         date: '',
         status: 'Saved'
     };
-    // let currentTab = browser.tabs.getCurrent();
-    // const response = browser.tabs.sendMessage(currentTab.id, {action: "getJobInfo"});
-    // if (response) {
-    // console.log(response)
-    // } else {
-    //     console.log('No response from content script');
-    // }
+    let currentTab;
+    await browser.tabs.query({currentWindow: true, active: true})
+	    .then((tabs) => {
+            console.log(tabs)
+	        currentTab = tabs[0]
+        });
+    console.log(currentTab.id)
+    browser.tabs
+        .sendMessage(currentTab.id, "getJob")
+        .then((response) => {
+            console.log(response.response)
+            job = response.response;
+        })
+
 }
 
-
+// WE NEED TO FIX THIS SO THAT FIRST ROWS DONT CALL getJob()
 export function createJobRow(tableBodyEl,job,jobId) {
     const row = document.createElement('tr');
     const keys = ['title', 'company', 'salary', 'date', 'status'];

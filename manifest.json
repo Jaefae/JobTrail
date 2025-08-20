@@ -11,15 +11,15 @@
   "content_scripts": [
     {
       "matches": ["*://*.linkedin.com/jobs*"],
-      "js": ["content/linkedin.js"]
+      "js": ["content/linkedin.js","node_modules/webextension-polyfill/dist/browser-polyfill.js"]
     },
     {
        "matches": ["*://*.indeed.com/*"],
-       "js": ["content/indeed.js"] 
+       "js": ["node_modules/webextension-polyfill/dist/browser-polyfill.js", "content/indeed.js"] 
     },
     {
       "matches": ["*://*.glassdoor.com/job/*"],
-      "js": ["content/glassdoor.js"]
+      "js": ["content/glassdoor.js","node_modules/webextension-polyfill/dist/browser-polyfill.js"]
     }
   ]
 } 

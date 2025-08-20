@@ -51,11 +51,32 @@ function shiftIds(pivot) {
     });
 }
     
+function getJob(){
+    let jobInfo = {
+        title: '',
+        company: '',
+        salary: '',
+        date: '',
+        status: 'Saved'
+    };
+    // let currentTab = browser.tabs.getCurrent();
+    // const response = browser.tabs.sendMessage(currentTab.id, {action: "getJobInfo"});
+    // if (response) {
+    // console.log(response)
+    // } else {
+    //     console.log('No response from content script');
+    // }
+}
 
 
 export function createJobRow(tableBodyEl,job,jobId) {
     const row = document.createElement('tr');
     const keys = ['title', 'company', 'salary', 'date', 'status'];
+
+    if (!job) {
+        getJob();
+    }
+
     const jobData = [job?.title, job?.company, job?.salary, job?.date, job?.status];
     if (jobId !== undefined) {
         row.id = jobId;

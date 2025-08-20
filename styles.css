@@ -17,19 +17,20 @@ td {
     border: none;
 }
 
-tr {
-    margin: 0;
-    padding: 0;
+
+.job-list tbody tr:nth-child(even) {
+    background-color: #d0d0d0;
 }
 
 input {
     box-sizing: border-box;
     display: block;
     height: 18px;
-    font-size: 12px;;
-    border: 1px solid #aaa;
+    font-size: 12px;
+    background-color: transparent;
+    border: 1px solid #9b9b9b;
     margin: 0;
-    padding: 0px;
+    padding: 2px;
 }
 
 .date {

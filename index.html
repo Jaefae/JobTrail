@@ -8,21 +8,22 @@
     <script src="extension.js" type="module" defer></script>
 </head>
 <body>
-    <h1>JobTrail</h1>
-    <table id="job-list" class="job-list">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Company</th>
-                <th>Salary</th>
-                <th>Applied</th>
-                <th>Progress</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody id="job-list-body">
-            <!-- Job listings will be dynamically inserted here -->
-        </tbody>
-    </table>
+    <h1 class="logo">JobTrail</h1>
+    <div class="table-container">
+        <table id="job-list">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Company</th>
+                    <th>Salary</th>
+                    <th>Applied</th>
+                    <th>Progress</th>
+                </tr>
+            </thead>
+            <tbody id="job-list-body">
+                <!-- Job listings will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
     <button id="add-job">Add Job</button>
 </body>

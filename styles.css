@@ -1,59 +1,43 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: sans-serif, Arial;
     margin: 0;
-    padding: 5px;
+    padding: 1rem;
+    background-color: #F1F5F9;
 }
 
-table {
+#job-list {
     width: 100%;
     border-collapse: collapse;
-    margin:0;
 }
 
-td {
-    text-wrap: nowrap;
-    padding: 0;
-    height: 100%;;
-    border: none;
+thead {
+    width: 100%;
+    background-color: lavender;
 }
 
-
-.job-list tbody tr:nth-child(even) {
-    background-color: #d0d0d0;
+thead tr {
+    height: 30px;
+    text-justify: left;
+    padding: 5px;
 }
-
-input {
-    box-sizing: border-box;
-    display: block;
-    height: 18px;
+.job-list th {
+    position: sticky;
     font-size: 12px;
-    background-color: transparent;
-    border: 1px solid #9b9b9b;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+    background-color: lightgreen;
+    top: 0;
     margin: 0;
-    padding: 2px;
+    padding: 0;
+}
+input, select {
+    border-radius: 0;
+    border: none;
+    background: none;
 }
 
-.link {
-    box-sizing: border-box;
-    text-align: center;
-    border: 1px solid #9b9b9b;
-}
 
-.date {
-    width: 60px;
-    text-align: center;
-}
-
-.status {
-    width: 80px;
-    text-align: center;
-}
-
-#add-job {
-    border: 0px;
-    color: white;
-    font-weight: bold;
-    font-size: 12px;
-    border-radius: 3px;
-    background-color: #4CAF;
+tbody tr:hover {
+    background-color: #c8c8c8;
 }

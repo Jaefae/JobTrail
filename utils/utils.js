@@ -55,7 +55,7 @@ function shiftIds(pivot) {
 }
 
 function saveRow(rowEl, id) {
-    console.log(`Saving row :${rowEl}`);
+    console.log(`Saving row :${rowEl.id}`);
     if(!rowEl) return;
     const inputs = rowEl.querySelectorAll('input, select, button.link');
     let job = {};
@@ -65,7 +65,9 @@ function saveRow(rowEl, id) {
 
     const linkEl = rowEl.querySelector('a');
     job.link = linkEl?.href;
-    jobs[id] = job;
+    if(job) {
+        jobs[id] = job;
+    }
     localStorage.setItem('jobs', JSON.stringify(jobs));
 }
     
@@ -168,7 +170,7 @@ export function createJobRow(tableBodyEl, job, jobId) {
 
     // Only save if job has at least one non-empty value
     if (job && Object.values(job).some(val => val)) {
-        row.id = tableBodyEl.children.length;
+        row.id = tableBodyEl.children.length - 1;
         row.className = '';
         saveRow(row, row.id);
     }

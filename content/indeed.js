@@ -25,7 +25,7 @@ function getJob(msg) {
     }
     
     const salaryTypeEl = document.querySelector('#salaryInfoAndJobType');
-    if (salaryTypeEl && salaryTypeEl.children.length > 1) {
+    if (salaryTypeEl) {
         jobInfo.salary = salaryTypeEl.children[0].textContent;
     }
 

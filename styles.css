@@ -2,7 +2,9 @@ body {
     font-family: sans-serif, Arial;
     margin: 0;
     padding: 1rem;
+    max-width: 100%;
     background-color: #F1F5F9;
+    overflow-x: hidden;
 }
 
 #job-list {
@@ -11,7 +13,6 @@ body {
 }
 
 thead {
-    width: 100%;
     background-color: lavender;
 }
 
@@ -25,7 +26,6 @@ thead tr {
     font-size: 12px;
     padding: 5px;
     border-radius: 5px;
-    width: 100%;
     background-color: lightgreen;
     top: 0;
     margin: 0;
@@ -37,6 +37,9 @@ input, select {
     background: none;
 }
 
+.date {
+    width: 60px;
+}
 
 tbody tr:hover {
     background-color: #c8c8c8;

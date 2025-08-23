@@ -1,9 +1,10 @@
-import { createJobRow }  from './utils/utils.js'
+import { createJobRow, getJob }  from './utils/utils.js'
 
 const addJobEl = document.getElementById('add-job');
 const tableBodyEl = document.getElementById('job-list-body');
 
 let jobs = JSON.parse(localStorage.getItem('jobs'));
+
 
 if (jobs && jobs.length > 0) {
     for(let i = 0; i < jobs.length; i++) {
@@ -13,8 +14,11 @@ if (jobs && jobs.length > 0) {
     createJobRow(tableBodyEl);
 }
 
-addJobEl.addEventListener('click', () => {
+
+
+addJobEl.addEventListener('click', async() => {
     console.log('Add job button clicked');
-    createJobRow(tableBodyEl);
+    const job = await getJob();
+    createJobRow(tableBodyEl, job);
 });
 

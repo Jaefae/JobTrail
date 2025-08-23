@@ -10,8 +10,8 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.linkedin.com/jobs*"],
-      "js": ["content/linkedin.js","node_modules/webextension-polyfill/dist/browser-polyfill.js"]
+      "matches": ["*://*.linkedin.com/jobs/*"],
+      "js": ["node_modules/webextension-polyfill/dist/browser-polyfill.js", "content/linkedin.js"]
     },
     {
        "matches": ["*://*.indeed.com/*"],
@@ -19,7 +19,7 @@
     },
     {
       "matches": ["*://*.glassdoor.com/job/*"],
-      "js": ["content/glassdoor.js","node_modules/webextension-polyfill/dist/browser-polyfill.js"]
+      "js": ["node_modules/webextension-polyfill/dist/browser-polyfill.js","content/glassdoor.js"]
     }
   ]
 } 

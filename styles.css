@@ -33,6 +33,12 @@ input {
     padding: 2px;
 }
 
+.link {
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid #9b9b9b;
+}
+
 .date {
     width: 60px;
     text-align: center;

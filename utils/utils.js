@@ -4,6 +4,10 @@ if (!jobs) {
     jobs = [];
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 
 function handleInputChange(e) {
     const field = this.className;
@@ -23,7 +27,6 @@ function handleInputChange(e) {
 function handleDeleteClick(e) {
     const rowEl = this.closest('tr');
     const tableBodyEl = document.getElementById('job-list-body');
-    console.log(rowEl.className);
     if (rowEl.className !== 'empty') {
         jobs.splice(Number(rowEl.id), 1);
         shiftIds(rowEl.id);
@@ -50,83 +53,132 @@ function shiftIds(pivot) {
         row.id = Number(row.id) - 1;
     });
 }
-    
-async function getJob(){
-    let jobInfo = {
-        title: '',
-        company: '',
-        salary: '',
-        date: '',
-        status: 'Saved'
-    };
-    let currentTab;
-    await browser.tabs.query({currentWindow: true, active: true})
-	    .then((tabs) => {
-            console.log(tabs)
-	        currentTab = tabs[0]
-        });
-    console.log(currentTab.id)
-    browser.tabs
-        .sendMessage(currentTab.id, "getJob")
-        .then((response) => {
-            console.log(response.response)
-            job = response.response;
-        })
 
+function saveRow(rowEl, id) {
+    console.log(`Saving row :${rowEl}`);
+    if(!rowEl) return;
+    const inputs = rowEl.querySelectorAll('input, select, button.link');
+    let job = {};
+    inputs.forEach(input => {
+        job[input.className] = input.value;
+    });
+
+    const linkEl = rowEl.querySelector('a');
+    job.link = linkEl?.href;
+    jobs[id] = job;
+    localStorage.setItem('jobs', JSON.stringify(jobs));
+}
+    
+export async function getJob() {
+    let currentTab;
+    await browser.tabs.query({ currentWindow: true, active: true })
+        .then((tabs) => {
+            currentTab = tabs[0];
+        });
+    if (currentTab.url.includes("indeed") || currentTab.url.includes("linkedin") || currentTab.url.includes("glassdoor")) {
+        return new Promise((resolve) => {
+            const listener = (message) => {
+                if (message.response) {
+                    browser.runtime.onMessage.removeListener(listener);
+                    console.log("Received job info:", message.response);
+                    resolve(message.response);
+                }
+            };
+            let connected = false;
+            while (!connected) {
+                try {
+                    browser.runtime.onMessage.addListener(listener);
+                    connected = true;
+                }
+                catch (error) {
+                    sleep(5000);
+                    console.error("Error adding message listener:", error);
+                }
+            }
+            try {
+                browser.tabs.sendMessage(currentTab.id, "getJob");
+            } catch (error) {
+                console.error("Error sending message to content script:", error);
+                resolve({});
+            }
+        });
+    } else {
+        return {};
+    }
 }
 
-// WE NEED TO FIX THIS SO THAT FIRST ROWS DONT CALL getJob()
-export function createJobRow(tableBodyEl,job,jobId) {
+export function createJobRow(tableBodyEl, job, jobId) {
     const row = document.createElement('tr');
-    const keys = ['title', 'company', 'salary', 'date', 'status'];
-
-    if (!job) {
-        getJob();
-    }
-
+    const keys = ['title', 'company', 'salary', 'date', 'status', 'link'];
     const jobData = [job?.title, job?.company, job?.salary, job?.date, job?.status];
+
     if (jobId !== undefined) {
         row.id = jobId;
-    } else { row.className = 'empty' };
+    } else {
+        row.className = 'empty';
+    }
 
-    // Create input fields for each key
-    for (let i = 0; i < jobData.length; i++) {
+    // Create input fields for each key except 'link'
+    for (let i = 0; i < keys.length; i++) {
         const cell = document.createElement('td');
         let input;
-        if (i === (jobData.length-1)) {
+        if (keys[i] === 'status') {
             input = document.createElement('select');
-            const options = ['Saved','Applied', 'Interview', 'Offer', 'Rejected'];
+            const options = ['Saved', 'Applied', 'Interview', 'Offer', 'Rejected'];
             options.forEach(option => {
                 const opt = document.createElement('option');
                 opt.value = option;
                 opt.textContent = option;
-                if (jobData[i] === option) {
+                if (job?.status === option) {
                     opt.selected = true;
                 }
                 input.appendChild(opt);
             });
-        } else { 
-            input = document.createElement('input'); 
+            input.className = keys[i];
+            input.addEventListener('input', handleInputChange);
+            cell.appendChild(input);
+        } else if (keys[i] === 'link') {
+            // Display link as an icon or anchor if present
+                const link = document.createElement('a');
+                link.href = job?.link;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.title = 'Open job link';
+
+                if(!job?.link) {
+                    link.style.pointerEvents = 'none';
+                    cell.style.backgroundColor = '#fdb4b6ff';
+                }
+
+                // SVG icon (simple chain link)
+                link.innerHTML = `<img src="static/link.svg" alt="Job Link" width="16" height="16">`;
+                cell.className = 'link'
+                cell.appendChild(link);
+        } else {
+            input = document.createElement('input');
             input.type = 'text';
-            input.value = jobData[i] || '';
+            input.value = job?.[keys[i]] || '';
+            input.placeholder = keys[i].charAt(0).toUpperCase() + keys[i].slice(1);
+            input.className = keys[i];
+            input.addEventListener('input', handleInputChange);
+            cell.appendChild(input);
         }
-
-        // Set attributes and event listeners
-        input.placeholder = keys[i].charAt(0).toUpperCase() + keys[i].slice(1);
-        input.className = keys[i];
-        input.addEventListener('input', handleInputChange);
-        
-        cell.appendChild(input);
         row.appendChild(cell);
-    };
-    
+    }
 
+    // Only save if job has at least one non-empty value
+    if (job && Object.values(job).some(val => val)) {
+        row.id = tableBodyEl.children.length;
+        row.className = '';
+        saveRow(row, row.id);
+    }
 
+    // Delete button
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'x';
     deleteBtn.className = 'delete-btn';
-    deleteBtn.addEventListener('click', handleDeleteClick);  
+    deleteBtn.addEventListener('click', handleDeleteClick);
     row.appendChild(deleteBtn);
 
     tableBodyEl.appendChild(row);
-};
+}

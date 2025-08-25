@@ -41,8 +41,7 @@ function handleDeleteClick(e) {
         const linkEl = linkElContainer.querySelector('a');
 
         linkElContainer.style.backgroundColor = '#fdb4b6ff';
-        linkEl.pointerEvents = 'none';
-
+        linkEl.style.pointerEvents = 'none';
     }
 
     localStorage.setItem('jobs', JSON.stringify(jobs));

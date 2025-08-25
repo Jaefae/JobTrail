@@ -72,7 +72,7 @@ function saveRow(rowEl, id) {
     const linkEl = rowEl.querySelector('a');
     job.link = linkEl?.href;
     if(job) {
-        jobs[id] = job;
+        jobs.push(job);
     }
     localStorage.setItem('jobs', JSON.stringify(jobs));
 }
@@ -115,7 +115,7 @@ export async function getJob() {
     }
 }
 
-export function createJobRow(tableBodyEl, job, jobId) {
+export function createJobRow(tableBodyEl, job, jobId, opening=false) {
     const row = document.createElement('tr');
     const keys = ['title', 'company', 'salary', 'date', 'status', 'link'];
     const jobData = [job?.title, job?.company, job?.salary, job?.date, job?.status];
@@ -175,8 +175,8 @@ export function createJobRow(tableBodyEl, job, jobId) {
     }
 
     // Only save if job has at least one non-empty value
-    if (job && Object.values(job).some(val => val)) {
-        row.id = tableBodyEl.children.length - 1;
+    if (job && Object.values(job).some(val => val) && !opening) {
+        row.id = tableBodyEl.children.length;
         row.className = '';
         saveRow(row, row.id);
     }

@@ -8,7 +8,7 @@ let jobs = JSON.parse(localStorage.getItem('jobs'));
 
 if (jobs && jobs.length > 0) {
     for(let i = 0; i < jobs.length; i++) {
-        createJobRow(tableBodyEl,jobs[i], i);
+        createJobRow(tableBodyEl,jobs[i], i, true);
     };
 } else {
     createJobRow(tableBodyEl);

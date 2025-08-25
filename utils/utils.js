@@ -36,6 +36,13 @@ function handleDeleteClick(e) {
     } else {
         rowEl.querySelectorAll('input').forEach(input => input.value = null);
         rowEl.querySelector('select').value = 'Saved';
+
+        const linkElContainer = rowEl.querySelector('.link');
+        const linkEl = linkElContainer.querySelector('a');
+
+        linkElContainer.style.backgroundColor = '#fdb4b6ff';
+        linkEl.pointerEvents = 'none';
+
     }
 
     localStorage.setItem('jobs', JSON.stringify(jobs));

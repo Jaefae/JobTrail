@@ -24,6 +24,7 @@ thead tr {
     text-justify: left;
     padding: 5px;
 }
+
 .job-list th {
     position: sticky;
     font-size: 12px;
@@ -34,7 +35,9 @@ thead tr {
     margin: 0;
     padding: 0;
 }
-input, select {
+
+input,
+select {
     border-radius: 0;
     border: none;
     background: none;
@@ -49,10 +52,9 @@ input, select {
 }
 
 #logo {
-    font-size: 16px;
-    font-style: italic;
-    border-radius: 5px;
-    padding: 5px;
+    box-sizing: border-box;
+    height: 32px;
+    padding: 2px;
 }
 
 #add-job {

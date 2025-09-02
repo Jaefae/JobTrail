@@ -4,22 +4,45 @@
   "author": "Jack Hendrix",
   "version": "1.0",
   "description": "Tracks job applications and status across sites.",
-  "permissions": ["storage", "tabs", "activeTab"],
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab"
+  ],
+  "icons": {
+    "48": "static/Logo48.png",
+    "128": "static/Logo128.png"
+  },
   "action": {
     "default_popup": "index.html"
   },
   "content_scripts": [
     {
-      "matches": ["*://*.linkedin.com/*"],
-      "js": ["node_modules/webextension-polyfill/dist/browser-polyfill.js", "content/linkedin.js"]
+      "matches": [
+        "*://*.linkedin.com/*"
+      ],
+      "js": [
+        "node_modules/webextension-polyfill/dist/browser-polyfill.js",
+        "content/linkedin.js"
+      ]
     },
     {
-       "matches": ["*://*.indeed.com/*"],
-       "js": ["node_modules/webextension-polyfill/dist/browser-polyfill.js", "content/indeed.js"] 
+      "matches": [
+        "*://*.indeed.com/*"
+      ],
+      "js": [
+        "node_modules/webextension-polyfill/dist/browser-polyfill.js",
+        "content/indeed.js"
+      ]
     },
     {
-      "matches": ["*://*.glassdoor.com/*"],
-      "js": ["node_modules/webextension-polyfill/dist/browser-polyfill.js","content/glassdoor.js"]
+      "matches": [
+        "*://*.glassdoor.com/*"
+      ],
+      "js": [
+        "node_modules/webextension-polyfill/dist/browser-polyfill.js",
+        "content/glassdoor.js"
+      ]
     }
   ]
-} 
+}

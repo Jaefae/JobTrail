@@ -18,7 +18,7 @@ function handleInputChange(e) {
         jobs[jobIdx] = {};
         rowEl.id = jobIdx;
         rowEl.className = ''
-    } else {jobIdx = Number(rowEl.id)};
+    } else { jobIdx = Number(rowEl.id) };
 
     jobs[jobIdx][field] = this.value;
     localStorage.setItem('jobs', JSON.stringify(jobs));
@@ -62,7 +62,7 @@ function shiftIds(pivot) {
 
 function saveRow(rowEl, id) {
     console.log(`Saving row :${rowEl.id}`);
-    if(!rowEl) return;
+    if (!rowEl) return;
     const inputs = rowEl.querySelectorAll('input, select, button.link');
     let job = {};
     inputs.forEach(input => {
@@ -71,12 +71,12 @@ function saveRow(rowEl, id) {
 
     const linkEl = rowEl.querySelector('a');
     job.link = linkEl?.href;
-    if(job) {
+    if (job) {
         jobs.push(job);
     }
     localStorage.setItem('jobs', JSON.stringify(jobs));
 }
-    
+
 export async function getJob() {
     let currentTab;
     await browser.tabs.query({ currentWindow: true, active: true })
@@ -115,7 +115,35 @@ export async function getJob() {
     }
 }
 
-export function createJobRow(tableBodyEl, job, jobId, opening=false) {
+export async function exportCSV() {
+    let keys = ['Title', 'Company', 'Salary', 'Date applied', 'Status', 'Link'];
+    let out = "";
+    for (let i = 0; i < keys.length; i++) {
+        out += keys[i] + ",";
+    }
+
+    for (let i = 0; i < jobs.length; i++) {
+        out += "\n";
+        let job = jobs[i]
+        for (let j = 0; j < keys.length; j++)
+            out += '"' + job[keys[j]] + '"' + ",";
+    }
+    const handle = await window.showSaveFilePicker({
+        startIn: "downloads", suggestedName: "JobTrailExport.csv",
+        types: [{
+            decription: "A .csv file exported from JobTrail",
+            accept: { "text/csv": [".csv"] }
+        }]
+    });
+    const writeStream = await handle.createWritable();
+
+    await writeStream.write(out);
+    await writeStream.close();
+
+    console.log(out)
+}
+
+export function createJobRow(tableBodyEl, job, jobId, opening = false) {
     const row = document.createElement('tr');
     const keys = ['title', 'company', 'salary', 'date', 'status', 'link'];
     const jobData = [job?.title, job?.company, job?.salary, job?.date, job?.status];
@@ -147,21 +175,21 @@ export function createJobRow(tableBodyEl, job, jobId, opening=false) {
             cell.appendChild(input);
         } else if (keys[i] === 'link') {
             // Display link as an icon or anchor if present
-                const link = document.createElement('a');
-                link.href = job?.link;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                link.title = 'Open job link';
+            const link = document.createElement('a');
+            link.href = job?.link;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.title = 'Open job link';
 
-                if(!job?.link) {
-                    link.style.pointerEvents = 'none';
-                    cell.style.backgroundColor = '#fdb4b6ff';
-                }
+            if (!job?.link) {
+                link.style.pointerEvents = 'none';
+                cell.style.backgroundColor = '#fdb4b6ff';
+            }
 
-                // SVG icon (simple chain link)
-                link.innerHTML = `<img src="static/link.svg" alt="Job Link" width="16" height="16">`;
-                cell.className = 'link'
-                cell.appendChild(link);
+            // SVG icon (simple chain link)
+            link.innerHTML = `<img src="static/link.svg" alt="Job Link" width="16" height="16">`;
+            cell.className = 'link'
+            cell.appendChild(link);
         } else {
             input = document.createElement('input');
             input.type = 'text';

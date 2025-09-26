@@ -2,7 +2,7 @@
 
 JobTrail is a multi-platform browser extension that helps job seekers track and organize their applications. It automatically captures job details from sites like Glassdoor, LinkedIn, and Indeed, then exports them into a CSV for easy progress tracking.
 
-#Features
+# Features
 
 🔎 Extracts job details (title, company, location, salary, link) directly from job boards
 
@@ -12,7 +12,7 @@ JobTrail is a multi-platform browser extension that helps job seekers track and 
 
 📊 Helps you manage and track your application process in one place
 
-#Installation
+# Installation
 
 Clone the repository:
 
@@ -25,7 +25,7 @@ Enable Developer mode.
 
 Click Load unpacked and select the jobtrail folder.
 
-#Usage
+# Usage
 
 Navigate to a job listing on Glassdoor, LinkedIn, or Indeed.
 

@@ -16,14 +16,15 @@ JobTrail is a multi-platform browser extension that helps job seekers track and 
 
 Clone the repository:
 
+```bash
 git clone https://github.com/JaeFae/jobtrail.git
-
+```
 
 Open your browser’s extensions page (e.g. chrome://extensions/ in Chrome).
 
 Enable Developer mode.
 
-Click Load unpacked and select the jobtrail folder.
+Click Load unpacked and select the JobTrail folder.
 
 # Usage
 
